@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{{post.title_tag}}{% endblock %}</title>
+</head>
+
+<body>
+{% block content %}
+
+<h1>{{ post.title }}</h1>
+<small> By: {{ post.author }} <a href="{% url 'update_post' post.pk %}">(EDIT)</a> <a href="{% url 'delete_post' post.pk %}">(DELETE)</a></small>
+<br>
+<hr>
+{{ post.body }}
+
+<hr>
+<a href="{% url 'home' %}"><div type="button" class="btn btn-secondary">BACK
+</div></a>
+{% endblock %}
+</body>
+</html>
