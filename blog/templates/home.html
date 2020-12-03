@@ -11,7 +11,7 @@
 {% block content %}
 <h1>Post</h1>
     {% for post in object_list %}
-        <li><a href="{%url 'article-detail' post.pk %}">{{ post.title }} </a> - by {{ post.author }} - <small><a href="{% url 'update_post' post.pk %}">(EDIT)</a></small><br>
+        <li><a href="{%url 'article-detail' post.pk %}">{{ post.title }} </a> - by <strong>{{ post.author }}</strong> {{ post.pub_Date }} - <small><a href="{% url 'update_post' post.pk %}">(EDIT)</a></small><br>
         {{ post.body }}
 
         </li>
