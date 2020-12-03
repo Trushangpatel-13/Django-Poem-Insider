@@ -6,11 +6,16 @@
     <title>{% block title %}{{post.title_tag}}{% endblock %}</title>
 </head>
 
+
 <body>
 {% block content %}
-
+{% if user.is_authenticated %}
 <h1>{{ post.title }}</h1>
-<small> By: {{ post.author }} on {{ post.pub_Date }}<br><a href="{% url 'update_post' post.pk %}">(EDIT)</a> <a href="{% url 'delete_post' post.pk %}">(DELETE)</a></small>
+    <small> By: {{ post.author }} on {{ post.pub_Date }}</small>
+    {% if user.is_authenticated %}
+    <small><br><a href="{% url 'update_post' post.pk %}">(EDIT)</a> <a href="{% url 'delete_post' post.pk %}">(DELETE)</a></small>
+
+    {% endif %}
 <br>
 <hr>
 {{ post.body }}
@@ -18,6 +23,12 @@
 <hr>
 <a href="{% url 'home' %}"><div type="button" class="btn btn-secondary">BACK
 </div></a>
+    {% else %}
+    <body>
+    <h4> Log In to Read full Doc.</h4>
+    </body>
+{% endif %}
 {% endblock %}
 </body>
+
 </html>

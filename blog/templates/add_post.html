@@ -9,6 +9,7 @@
 
 <body>
 {% block content %}
+    {% if user.is_authenticated %}
 <h3> Add Blog Post</h3>
     <br>
     <br>
@@ -19,6 +20,11 @@
             <button class="btn btn-secondary">Post</button>
         </form>
     </div>
+{% else %}
+    <body>
+    <h4> Log In to Continue.</h4>
+    </body>
+{% endif %}
 {% endblock %}
 </body>
 </html>

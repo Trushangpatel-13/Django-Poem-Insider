@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Categories{% endblock %}</title>
+</head>
+
+<body>
+{% block content %}
+    {% if category_post %}
+<h1>{{ cats }}</h1>
+    <ul>
+    {% for post in category_post %}
+        <li><a href="{%url 'article-detail' post.pk %}">{{ post.title }} </a> - {{ post.category }}<br> - by <strong>{{ post.author }}</strong> {{ post.pub_Date }}
+            {% if user.is_authenticated %}
+            - <small><a href="{% url 'update_post' post.pk %}">(EDIT)</a></small>
+            {% endif %}
+        <br>
+        {{ post.body | slice:":100" }}
+
+        </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+        <h3>Sorry No Posts in {{ cats }} category yet.</h3>
+    {% endif %}
+{% endblock %}
+
+</body>
+</html>
