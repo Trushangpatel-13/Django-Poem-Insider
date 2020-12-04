@@ -1,9 +1,10 @@
 from django import forms
-from .models import Post,Category
-choices = Category.objects.all().values_list('name','name')
+from .models import Post,CategoryList
+choices = CategoryList.objects.all().values_list('name','name')
 choices_list = []
 for item in choices:
     choices_list.append(item)
+print(choices_list)
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
