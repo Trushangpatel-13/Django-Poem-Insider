@@ -20,11 +20,17 @@
             <button class="btn btn-secondary">Post</button>
         </form>
     </div>
+        <script>
+        var name = "{{ user.id}}"
+        document.getElementById("id_author").value = name;
+
+        </script>
 {% else %}
     <body>
     <h4> Log In to Continue.</h4>
     </body>
 {% endif %}
 {% endblock %}
+
 </body>
 </html>

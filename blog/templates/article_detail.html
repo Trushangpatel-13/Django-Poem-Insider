@@ -9,17 +9,25 @@
 
 <body>
 {% block content %}
-{% if user.is_authenticated %}
+{% if user.is_authenticated%}
 <h1>{{ post.title }}</h1>
     <small> By: {{ post.author }} on {{ post.pub_Date }}</small>
-    {% if user.is_authenticated %}
+    {% if post.author.id == user.id %}
     <small><br><a href="{% url 'update_post' post.pk %}">(EDIT)</a> <a href="{% url 'delete_post' post.pk %}">(DELETE)</a></small>
 
     {% endif %}
 <br>
 <hr>
 {{ post.body }}
-
+    {{ post.id }}
+<hr>
+    <br>
+    <form action="{% url 'like_post' post.pk%}" method="POST">
+    {% csrf_token %}
+        <button name="post_ids", type="submit", value="{{ post.id }}", class="btn btn-primary btn-sm"> Like</button>
+        - {{ total_likes }} Likes
+    </form>
+    <br>
 <hr>
 <a href="{% url 'home' %}"><div type="button" class="btn btn-secondary">BACK
 </div></a>

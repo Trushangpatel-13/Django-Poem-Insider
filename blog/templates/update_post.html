@@ -10,21 +10,26 @@
 <body>
 {% block content %}
 {% if user.is_authenticated %}
-<h3> Edit Post</h3>
-    <br>
-    <br>
-    <div class="form-group">
-        <form method="POST" >
-        {% csrf_token %}
-        {{ form.as_p }}
-            <button class="btn btn-secondary">Update</button>
-        </form>
-    </div>
+    {%if post.author.id == user.id%}
+        <h3> Edit Post</h3>
+        <br>
+        <br>
+        <div class="form-group">
+            <form method="POST" >
+            {% csrf_token %}
+            {{ form.as_p }}
+                <button class="btn btn-secondary">Update</button>
+            </form>
+        </div>
+    {% else %}
+        <h4>You're Not Author of this Post...</h4>
+    {% endif %}
 {% else %}
     <body>
-    <h4> Log In to Continue.</h4>
+    <h4>You're Not Logged in...</h4>
     </body>
 {% endif %}
+
 {% endblock %}
 </body>
 </html>

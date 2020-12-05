@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from .models import Post,CategoryList
 from .forms import PostForm,UpdatePostForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
+from django.http import HttpResponseRedirect
 #def home(request):
 #    return render(request,'home.html',{})
 
@@ -24,7 +25,10 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         cat_menu = CategoryList.objects.all()
         context = super(ArticleDetailView,self).get_context_data(*args, **kwargs)
+        stuff = get_object_or_404(Post,id=self.kwargs['pk'])
+        total_likes = stuff.total_likes()
         context["cat_menu"] = cat_menu
+        context["total_likes"] = total_likes
         return context
 class AddPostView(CreateView):
     model = Post
@@ -44,3 +48,12 @@ class DeletePostView(DeleteView):
 def CategoryView(requests,cats):
     category_post = Post.objects.filter(category=cats.title().replace('-',' '))
     return render(requests,'categories.html',{'cats':cats.title().replace('-',' '),'category_post':category_post})
+
+def LikeView(request, pk):
+    print(request)
+    LikeAdd = get_object_or_404(Post, id=request.POST.get('post_ids'))
+    print("in function")
+    LikeAdd.likes.add(request.user)
+    return HttpResponseRedirect(reverse('article-detail',args=[str(pk)]))
+
+
