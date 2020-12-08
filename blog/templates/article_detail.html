@@ -7,7 +7,7 @@
 </head>
 
 
-<body>
+<>
 {% block content %}
 {% if user.is_authenticated%}
 <h1>{{ post.title }}</h1>
@@ -18,8 +18,41 @@
     {% endif %}
 <br>
 <hr>
+    {% if post.header_image %}
+    <img src="{{ post.header_image.url }}">
+        {% endif %}
 {{ post.body|safe}}
 <hr>
+    <br>
+    <br>
+
+
+    <div class="card mb-3" >
+  <div class="row g-0">
+    <div class="col-md-2">
+      <img src="{{ post.author.profile.profile_pic.url }}" width=100 height=100 class="rounded-circle" alt="https://www.google.com/imgres?imgurl=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fff%2Fa0%2F9a%2Fffa09aec412db3f54deadf1b3781de2a.png&imgrefurl=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F312859505363637482%2F&tbnid=SnTWNNl-712rYM&vet=12ahUKEwjo3MG2577tAhU4gEsFHT4ECZEQMygbegUIARCJAg..i&docid=VgL7Pqn5v0e6gM&w=792&h=792&q=user%20image%20png&ved=2ahUKEwjo3MG2577tAhU4gEsFHT4ECZEQMygbegUIARCJAg">
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.author }}</h5>
+           <p class="card-text">{{ post.author.profile.bio }}</p>
+        <p class="small text-muted">
+            {%  if post.author.profile.social_media_insta %}
+          <a href="{{ post.author.profile.social_media_insta }}">Instagram |  </a>
+            {% endif %}
+            {%  if post.author.profile.social_media_github %}
+            <a href="{{ post.author.profile.social_media_github }}">Github |  </a>
+            {% endif %}
+                {%  if post.author.profile.social_media_pinterest %}
+                <a href="{{ post.author.profile.social_media_pinterest }}">Pinterest</a>
+                {% endif %}
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>
+    <br>
     <br>
     <form action="{% url 'like_post' post.pk%}" method="POST">
     {% csrf_token %}
