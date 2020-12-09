@@ -18,8 +18,9 @@
 
     {% endif %}
 <br>
-<hr>{{ post.header_image.url }}
+<hr>
     {% if post.header_image %}
+        {{ post.header_image.url }}
     <img src="{{ post.header_image.url }}">
         {% endif %}
 {{ post.body|safe}}
@@ -31,8 +32,8 @@
     <div class="card mb-3" >
   <div class="row g-0">
     <div class="col-md-2">
-    {{ post.author.profile.profile_pic.url }}
         {% if post.author.profile.profile_pic %}
+            {{ post.author.profile.profile_pic.url }}
             <img src="{{ post.author.profile.profile_pic.url }}" width=200 height=200 >
             {% else %}
             <img src="{% static 'blog/images/alt.png' %}" width=200 height=200>
