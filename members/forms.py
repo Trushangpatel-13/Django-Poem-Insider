@@ -23,10 +23,10 @@ class EditProfileForm(UserChangeForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={"class":'form-control'}))
     first_name = forms.CharField(max_length=10,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'First Name'}))
     last_name = forms.CharField(max_length=10,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Last Name'}))
-
+    bio = forms.CharField(max_length=20,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Last Name'}))
     class Meta:
         model = User
-        fields = ('username','first_name','last_name','email')
+        fields = ('username','first_name','last_name','email','bio')
 
 class PasswordChangingForm(PasswordChangeForm):
     old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','type':'password'}))

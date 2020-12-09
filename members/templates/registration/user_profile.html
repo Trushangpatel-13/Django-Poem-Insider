@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Profile{% endblock %}</title>
+</head>
+
+<body>
+{% block content %}
+<h1>User Profile</h1>
+    <br>
+    <br>
+    <div class="card mb-3" >
+  <div class="row g-0">
+    <div class="col-md-2">
+        {% if page_user.profile_pic %}
+            <img src="{{ page_user.profile_pic.url }}" width=200 height=200 >
+            {% else %}
+            <img src="{% static 'blog/images/alt.png' %}" width=200 height=200>
+            {% endif %}
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">{{ page_user.user.username }}</h5>
+           <p class="card-text">{{ page_user.bio }}</p>
+        <p class="small text-muted">
+            {%  if page_user.social_media_insta %}
+          <a href="{{ page_user.social_media_insta }}">Instagram |  </a>
+            {% endif %}
+            {%  if page_user.social_media_github %}
+            <a href="{{ page_user.social_media_github }}">Github |  </a>
+            {% endif %}
+                {%  if page_user.social_media_pinterest %}
+                <a href="{{ page_user.social_media_pinterest }}">Pinterest</a>
+                {% endif %}
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+</body>
+</html>
