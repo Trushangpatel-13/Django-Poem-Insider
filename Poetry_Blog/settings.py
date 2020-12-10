@@ -135,12 +135,30 @@ USE_TZ = True
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+#For Media In bucket
+from google.oauth2 import service_account
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR,'credential.json')
+)
+
+###configuration for media file storing and reriving media file from gcloud
+DEFAULT_FILE_STORAGE='storages.backends.gcloud.GoogleCloudStorage'
+GS_PROJECT_ID = 'blog-298116'
+GS_BUCKET_NAME = 'blog-298116.appspot.com'
+MEDIA_ROOT = "media/"
+UPLOAD_ROOT = 'media/uploads/'
+MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'static'),
 
 )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressManifestStaticFilesStorage'
+
+
+
 
 django_heroku.settings(locals())
