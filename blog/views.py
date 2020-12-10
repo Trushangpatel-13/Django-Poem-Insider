@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect
 # Create your views here.
 class IndexView(ListView):
     model = Post
-    template_name = 'index.html'
+    template_name = 'Index.html'
     ordering = ['-pub_Date']
 
     def get_context_data(self, *args, **kwargs):
