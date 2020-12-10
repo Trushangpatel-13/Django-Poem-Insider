@@ -6,7 +6,7 @@ from django.views.generic import DetailView
 from django.urls import reverse_lazy
 from .forms import SignUpForm,EditProfileForm,PasswordChangingForm,ProfilePageForm
 from blog.models import Profile
-id = 0
+
 
 
 # Create your views here.

@@ -8,6 +8,16 @@ from django.http import HttpResponseRedirect
 #    return render(request,'home.html',{})
 
 # Create your views here.
+class IndexView(ListView):
+    model = Post
+    template_name = 'index.html'
+    ordering = ['-pub_Date']
+
+    def get_context_data(self, *args, **kwargs):
+        cat_menu = CategoryList.objects.all()
+        context = super(IndexView,self).get_context_data(*args, **kwargs)
+        context["cat_menu"] = cat_menu
+        return context
 class HomeView(ListView):
     model = Post
     template_name = 'home.html'

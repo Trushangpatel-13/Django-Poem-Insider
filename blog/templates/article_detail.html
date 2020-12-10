@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}{{post.title_tag}}{% endblock %}</title>
 </head>
-
+<body>
 {% block content %}
 <h1>{{ post.title }}</h1>
 
@@ -104,7 +104,7 @@
     <br><br>
     <hr>
 
-<a href="{% url 'home' %}"><div type="button" class="btn btn-secondary">BACK
+<a href="{% url 'index' %}"><div type="button" class="btn btn-secondary">BACK
 
 </div></a><br><br>
 
