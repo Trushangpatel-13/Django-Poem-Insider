@@ -18,7 +18,7 @@
             - <small><a href="{% url 'update_post' post.pk %}">(EDIT)</a></small>
             {% endif %}
         <br>
-        {{ post.body | slice:":100" }}
+        {{ post.snippet | safe }}
 
         </li>
     {% endfor %}

@@ -17,9 +17,9 @@ class Profile(models.Model):
     bio = models.TextField()
     profile_pic = models.ImageField(null=True,blank=True,upload_to="images/profile/")
     print(profile_pic)
-    social_media_insta = models.CharField(null=True,blank=True,max_length=50)
-    social_media_github = models.CharField(null=True, blank=True, max_length=50)
-    social_media_pinterest = models.CharField(null=True, blank=True, max_length=50)
+    social_media_insta = models.CharField(null=True,blank=True,max_length=100)
+    social_media_github = models.CharField(null=True, blank=True, max_length=100)
+    social_media_pinterest = models.CharField(null=True, blank=True, max_length=100)
 
     def __str__(self):
         return str(self.user)
@@ -34,9 +34,9 @@ class Post(models.Model):
     body = RichTextField(blank=True,null=True)
     #body = models.TextField()
     pub_Date = models.DateField(auto_now_add=True)
-    category = models.CharField(max_length=10,default='coding')
+    category = models.CharField(max_length=25,default='coding')
     likes = models.ManyToManyField(User,related_name='blog_posts')
-    snippet = models.CharField(max_length=50)
+    snippet = models.CharField(max_length=100)
 
 
 
