@@ -4,21 +4,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Edit Settings{% endblock %}</title>
+    <title>{% block title %}Add Comment{% endblock %}</title>
 </head>
 
 <body>
 {% block content %}
-<h3> Edit Profile</h3>
+
+<h3> Add Comment</h3>
     <br>
     <br>
     <div class="form-group">
         <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-            <button class="btn btn-secondary">Update</button>
+
+            {{ form.as_p }}
+
+            <button class="btn btn-secondary">Add</button>
         </form>
     </div>
+
+
 {% endblock %}
+
 </body>
 </html>

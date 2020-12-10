@@ -4,8 +4,9 @@ from django.contrib.auth.forms import UserCreationForm,UserChangeForm,PasswordCh
 from django.contrib.auth.views import PasswordChangeView
 from django.views.generic import DetailView
 from django.urls import reverse_lazy
-from .forms import SignUpForm,EditProfileForm,PasswordChangingForm
+from .forms import SignUpForm,EditProfileForm,PasswordChangingForm,ProfilePageForm
 from blog.models import Profile
+id = 0
 
 
 # Create your views here.
@@ -33,6 +34,21 @@ class ShowProfilePageView(DetailView):
         page_user = get_object_or_404(Profile,id=self.kwargs['pk'])
         context["page_user"] = page_user
         return context
+class EditProfilePageView(generic.UpdateView):
+    model = Profile
+    template_name = 'registration/edit_profile_page.html'
+    fields = ['bio','profile_pic','social_media_insta','social_media_github','social_media_pinterest']
+    success_url = reverse_lazy('home')
+
+class CreateProfilePageView(generic.CreateView):
+    model = Profile
+    template_name = 'registration/create_profile_page.html'
+    #success_url = reverse_lazy('home')
+    form_class = ProfilePageForm
+    def form_valid(self,form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 
 

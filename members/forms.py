@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm,PasswordChangeForm
 from django.contrib.auth.models import User
 from django import forms
-
+from blog.models import Profile
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={"class":'form-control'}))
     first_name = forms.CharField(max_length=10,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'First Name'}))
@@ -36,3 +36,16 @@ class PasswordChangingForm(PasswordChangeForm):
     class Meta:
         model = User
         fields = ('old_password','new_password1','new_password2')
+
+class ProfilePageForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('bio','profile_pic','social_media_insta','social_media_github','social_media_pinterest')
+        widgets = {
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Describe Yourself in few words'}),
+            #'profile_pic': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tag'}),
+            'social_media_insta': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Link'}),
+            'social_media_github': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Link'}),
+            'social_media_pinterest': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Link'}),
+
+    }

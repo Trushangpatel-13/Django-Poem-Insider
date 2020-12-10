@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post,CategoryList
+from .models import Post,CategoryList,Comment
 choices = CategoryList.objects.all().values_list('name','name')
 choices_list = []
 for item in choices:
@@ -29,5 +29,15 @@ class UpdatePostForm(forms.ModelForm):
             #'title_tag': forms.TextInput(attrs={'class': 'form-control disabled','placeholder':'Tag'}),
             #'author': forms.Select(attrs={'class': 'disabled form-control'}),
             'body': forms.Textarea(attrs={'class': 'form-control','placeholder':'Describe your beautiful creation'}),
+
+        }
+
+class AddCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('name','body')
+        widgets = {
+            'name':forms.TextInput(attrs={'class':'form-control'}),
+            'body': forms.Textarea(attrs={'class': 'form-control'}),
 
         }

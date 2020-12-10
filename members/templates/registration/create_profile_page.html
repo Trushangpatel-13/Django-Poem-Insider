@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Create Profile{% endblock %}</title>
+</head>
+
+<body>
+{% block content %}
+    {% if user.is_authenticated %}
+<h3> Create Profile</h3>
+    <br>
+    <br>
+    <div class="form-group">
+        <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button class="btn btn-secondary">Create</button>
+        </form>
+    </div>
+
+{% else %}
+    <body>
+    <h4> Log In to Continue.</h4>
+    </body>
+{% endif %}
+{% endblock %}
+
+</body>
+</html>

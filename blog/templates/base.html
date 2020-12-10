@@ -40,20 +40,34 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'add-post' %}">Post</a>
       </li>
+        {% if user.profile.id == 0%}
         <li class="nav-item">
-        <a class="nav-link" href="{% url 'edit_profile' %}">Profile</a>
-      </li>
+        <a class="nav-link" href="{% url 'create-profile-page' %}">Create Profile</a>
+        </li>
+            {% endif %}
+
+
 
          </ul>
 
-        <ul class="navbar-nav ml-auto pr-5">
+        <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{ user.username }}
         </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Change Password</a></li>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                {% if user.profile.id %}
+                    <li><a class="dropdown-item" href="{% url 'profile-page' user.profile.id %}">Profile</a></li>
+
+                    <li><a class="dropdown-item" href="{% url 'edit-profile-page' user.profile.id %}">Edit Profile</a></li>
+
+                {% else %}
+                    <li><a class="dropdown-item" href="{% url 'create-profile-page' %}">Create Profile</a></li>
+
+
+                    {% endif %}
+                    <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Setting</a></li>
+            <li><a class="dropdown-item" href="/members/password/">Change Password</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
           </ul>

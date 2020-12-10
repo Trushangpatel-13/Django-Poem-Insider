@@ -7,14 +7,15 @@
     <title>{% block title %}{{post.title_tag}}{% endblock %}</title>
 </head>
 
-
-<>
 {% block content %}
-{% if user.is_authenticated%}
 <h1>{{ post.title }}</h1>
+
+
     <small> By: {{ post.author }} on {{ post.pub_Date }}</small>
+    {% if user.is_authenticated%}
     {% if post.author.id == user.id %}
     <small><br><a href="{% url 'update_post' post.pk %}">(EDIT)</a> <a href="{% url 'delete_post' post.pk %}">(DELETE)</a></small>
+    {% endif %}
 
     {% endif %}
 <br>
@@ -24,12 +25,25 @@
     <img src="{{ post.header_image.url }}">
         {% endif %}
 {{ post.body|safe}}
-<hr>
+<hr><br>
+    {% if user.is_authenticated%}
+    <form action="{% url 'like_post' post.pk%}" method="POST">
+    {% csrf_token %}
+
+        {% if liked %}
+        <button name="post_ids", type="submit", value="{{ post.id }}", class="btn btn-danger btn-sm"> Dislike </button>
+        - {{ total_likes }} Likes
+        {% else %}
+        <button name="post_ids", type="submit", value="{{ post.id }}", class="btn btn-primary btn-sm"> Like </button>
+        - {{ total_likes }} Likes
+        {% endif %}
+    </form>
+    {% endif %}
+    <br><br>
+    {% if post.author.profile.id %}
     <br>
     <br>
-
-
-    <div class="card mb-3" >
+        <div class="card mb-3" >
   <div class="row g-0">
     <div class="col-md-2">
         {% if post.author.profile.profile_pic %}
@@ -62,26 +76,38 @@
 </div>
     <br>
     <br>
-    <form action="{% url 'like_post' post.pk%}" method="POST">
-    {% csrf_token %}
-
-        {% if liked %}
-        <button name="post_ids", type="submit", value="{{ post.id }}", class="btn btn-danger btn-sm"> Dislike </button>
-        - {{ total_likes }} Likes
-        {% else %}
-        <button name="post_ids", type="submit", value="{{ post.id }}", class="btn btn-primary btn-sm"> Like </button>
-        - {{ total_likes }} Likes
         {% endif %}
-    </form>
+    <hr>
+    <h3><strong>Comments</strong></h3>
     <br>
-<hr>
-<a href="{% url 'home' %}"><div type="button" class="btn btn-secondary">BACK
-</div></a>
+    {% if user.is_authenticated%}
+    {% if not post.comments.all %}
+        <h5>No Comments Yet</h5>
+        {% else %}
+
+        {% for comment in post.comments.all %}
+            <hr>
+            <strong>
+            {{ comment.name }} - {{ comment.date_added }}
+            </strong>
+            <br>
+            {{ comment.body }}
+            <br><br>
+        {% endfor %}
+        {% endif %}
+        <br>
+                <a href="{% url 'add-comment' post.pk %}"> Add Comment </a>
+
     {% else %}
-    <body>
-    <h4> Log In to Read full Doc.</h4>
-    </body>
-{% endif %}
+        <h4>Log In to Continue</h4>
+    {% endif %}
+    <br><br>
+    <hr>
+
+<a href="{% url 'home' %}"><div type="button" class="btn btn-secondary">BACK
+
+</div></a><br><br>
+
 {% endblock %}
 </body>
 
