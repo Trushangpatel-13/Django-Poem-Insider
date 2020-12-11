@@ -38,8 +38,8 @@
             </div >
         </div>
             {% if user.is_authenticated %}
-            <div class="nav-brand pl-5">
-            <ul class="navbar-items">
+            <div class="nav ml-auto">
+            <ul class="nav-items">
                 <li class="nav-link">
                     <h4>
                     <a href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
@@ -47,8 +47,8 @@
                 </li>
             </ul>
             </div>
-            <div class="nav-brand ">
-            <ul class="navbar-items">
+            <div class="nav mr-auto">
+            <ul class="nav-items">
                 <li class="nav-link">
                     <h5>
                     <a href="{% url 'add-post' %}">Post </a>
@@ -56,6 +56,30 @@
                 </li>
             </ul>
             </div>
+                <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ user.username }}
+        </a>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                {% if user.profile.id %}
+                    <li><a class="dropdown-item" href="{% url 'profile-page' user.profile.id %}">Profile</a></li>
+
+                    <li><a class="dropdown-item" href="{% url 'edit-profile-page' user.profile.id %}">Edit Profile</a></li>
+
+                {% else %}
+                    <li><a class="dropdown-item" href="{% url 'create-profile-page' %}">Create Profile</a></li>
+
+
+                    {% endif %}
+                    <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Setting</a></li>
+            <li><a class="dropdown-item" href="/members/password/">Change Password</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
+          </ul>
+      </li>
+        </ul>
+
 
             {% else %}
 
@@ -92,44 +116,40 @@
 
         <section>
             <div class="blog">
-                <div class="container">
-                    <div class="owl-carousel owl-theme blog-post">
-                        <div class="blog-content" data-aos="fade-right" data-aos-delay="200">
-                            <img src="{% static 'blog/assets/Blog-post/post-1.jpg' %}" alt="post-1">
-                            <div class="blog-title">
-                                <h3>London Fashion week's continued the evolution</h3>
-                                <button class="btn btn-blog">Fashion</button>
-                                <span>2 minutes</span>
-                            </div>
-                        </div>
+
+            <div class="container">
+                <h2>Poems</h2>
+
+                <div class="owl-carousel owl-theme blog-post">
+
+                {% if poem %}
+                {% for item in poem %}
+
+
                         <div class="blog-content" data-aos="fade-in" data-aos-delay="200">
-                            <img src="{% static 'blog/assets/Blog-post/post-1.jpg' %}" alt="post-1">
-                            <div class="blog-title">
-                                <h3>London Fashion week's continued the evolution</h3>
-                                <button class="btn btn-blog">Fashion</button>
-                                <span>2 minutes</span>
+
+                                {% if item.header_image %}
+                                    <img src="{{ item.header_image.url }}" alt="post-1" width="250vw" height="250vh">
+                                {% else %}
+                                    <img src="{% static 'blog/images/sun.jpg' %}" alt="post-1" width="250vw" height="250vh">
+                                {% endif %}
+                                <div class="blog-title">
+                                <h3>{{ item.title }}</h3>
+
+                                <button class="btn btn-blog">{{ item.title_tag }}</button>
+                                <span>By {{ item.author }}</span>
                             </div>
-                        </div>
-                        <div class="blog-content" data-aos="fade-left" data-aos-delay="200">
-                            <img src="{% static 'blog/assets/Blog-post/post-1.jpg' %}" alt="post-1">
-                            <div class="blog-title">
-                                <h3>London Fashion week's continued the evolution</h3>
-                                <button class="btn btn-blog">Fashion</button>
-                                <span>2 minutes</span>
-                            </div>
-                        </div>
-                        <div class="blog-content" data-aos="fade-right" data-aos-delay="200">
-                            <img src="{% static 'blog/assets/Blog-post/post-1.jpg' %}" alt="post-1">
-                            <div class="blog-title">
-                                <h3>London Fashion week's continued the evolution</h3>
-                                <button class="btn btn-blog">Fashion</button>
-                                <span>2 minutes</span>
-                            </div>
-                        </div>
+
+                         </div>
+                    {% endfor %}
+                        {% endif %}
+
                     </div>
                     <div class="owl-navigation">
+
                         <span class="owl-nav-prev"><i class="fas fa-long-arrow-alt-left"></i></span>
                         <span class="owl-nav-next"><i class="fas fa-long-arrow-alt-right"></i></span>
+
                     </div>
                 </div>
             </div>
@@ -161,7 +181,7 @@
                             <a href="{%url 'article-detail' post.pk %}">{{ post.title }} </a>
                             <p>{{ post.snippet | safe }}
                             </p>
-                            <button class="btn post-btn">Read More &nbsp; <i class="fas fa-arrow-right"></i></button>
+                            <a href="{%url 'article-detail' post.pk %}" ><button class="btn post-btn">Read More &nbsp; <i class="fas fa-arrow-right"></i></button></a>
                         </div>
                         </div>
                         <hr>
@@ -173,14 +193,15 @@
                 </div>
                 <aside class="sidebar">
                     <div class="category">
-                        {% if cat_menu %}
+                        {% if zipped%}
                         <h2>Category</h2>
                         <ul class="category-list">
-                            {% for item in cat_menu %}
+                            {% for item,count in zipped %}
                                 <a href="{% url 'category' item|slugify %}">
                             <li class="list-items" data-aos="fade-left" data-aos-delay="100">
-                                {{ item }}
-                                <span>(05)</span>
+                                <strong>{{ item }}</strong>
+                                <strong><span>{{ count}}</span></strong>
+
                             </li>
                                 </a>
                             {% endfor %}
@@ -188,13 +209,17 @@
                         {% endif %}
                     </div>
                     <div class="popular-post">
-                        <h2>Popular Post</h2>
-
-
+                        <h2>Popular Stories</h2>
+                        {% if story %}
+                        {% for item in story %}
                         <div class="post-content" data-aos="flip-up" data-aos-delay="500">
                             <div class="post-image">
                                 <div>
-                                    <img src="{% static 'blog/assets/Blog-post/post-1.jpg' %}" class="img" alt="blog1">
+                                    {% if item.header_image %}
+                                    <img src="{{ item.header_image.url }}" class="img" >
+                                {% else %}
+                                    <img src="{% static 'blog/images/blog4.png' %}" class="img" >
+                                {% endif %}
                                 </div>
                                 <div class="post-info flex-row">
                                     <span><i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January 14,
@@ -206,21 +231,10 @@
                                 <a href="#">New data recording system to better analyse road accidents</a>
                             </div>
                         </div>
-                        <div class="post-content" data-aos="flip-up" data-aos-delay="600">
-                            <div class="post-image">
-                                <div>
-                                    <img src="{% static 'blog/assets/Blog-post/post-1.jpg' %}" class="img" alt="blog1">
-                                </div>
-                                <div class="post-info flex-row">
-                                    <span><i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;January 14,
-                                        2019</span>
-                                    <span>2 Commets</span>
-                                </div>
-                            </div>
-                            <div class="post-title">
-                                <a href="#">New data recording system to better analyse road accidents</a>
-                            </div>
-                        </div>
+
+                        {% endfor %}
+                        {% endif %}
+
                     </div>
 
                     <div class="popular-tags">

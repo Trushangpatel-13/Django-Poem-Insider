@@ -15,7 +15,7 @@
     {% for post in category_post %}
         <li><a href="{%url 'article-detail' post.pk %}">{{ post.title }} </a> - {{ post.category }}<br> - by <strong>{{ post.author }}</strong> {{ post.pub_Date }}
             {% if user.is_authenticated %}
-            - <small><a href="{% url 'update_post' post.pk %}">(EDIT)</a></small>
+
             {% endif %}
         <br>
         {{ post.snippet | safe }}

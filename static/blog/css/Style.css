@@ -5,7 +5,7 @@
 html, body{
     margin: 0%;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow-x: visible;
 }
 
 :root{
@@ -95,8 +95,9 @@ p{
     padding: 0 2rem;
     height: 0rem;
     min-height: 10vh;
-    overflow: hidden;
+    overflow: visible;
     transition: height 1s ease-in-out;
+    z-index: 999999;
 }
 
 .nav .nav-menu{    
@@ -295,7 +296,7 @@ main .site-content .post-content > .post-image .post-info{
 }
 
 main .site-content .post-content > .post-image > div{
-    overflow: hidden;
+    overflow: visible;
 }
 
 main .site-content .post-content > .post-image .img{

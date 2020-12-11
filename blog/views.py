@@ -15,8 +15,22 @@ class IndexView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         cat_menu = CategoryList.objects.all()
+        cat_count = []
+        tags = Post.objects.all().values_list('title_tag', 'title_tag')
+        for item in cat_menu:
+            number = Post.objects.filter(category=item).count()
+            cat_count.append(number)
+        print(cat_menu)
+        poem = Post.objects.filter(category='Poem').order_by('-pub_Date')
+        story = Post.objects.filter(category='Story').order_by('-pub_Date')
         context = super(IndexView,self).get_context_data(*args, **kwargs)
-        context["cat_menu"] = cat_menu
+
+        context["zipped"] = zip(cat_menu,cat_count)
+        context["poem"] = poem
+        context["story"] = story
+        context["tags"] = tags
+
+        #context["cat_count"] = cat_count
         return context
 class HomeView(ListView):
     model = Post
@@ -50,6 +64,8 @@ class AddPostView(CreateView):
     form_class = PostForm
     template_name = 'add_post.html'
     #fields = '__all__'
+    #success_url = reverse_lazy('article-detail',kwargs={'id':id})
+
 class UpdatePostView(UpdateView):
     model = Post
     form_class = UpdatePostForm
